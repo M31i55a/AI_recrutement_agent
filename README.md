@@ -409,6 +409,6 @@ For issues or questions:
 
 ---
 
-**Last Updated**: January 23, 2026  
+**Last Updated**: January 28, 2026  
 **Python Version**: 3.13+  
 **Ollama Model**: llama3.2
