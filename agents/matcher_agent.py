@@ -1,11 +1,3 @@
-from typing import Dict, Any
-from .base_agent import BaseAgent
-from db.database import JobDatabase
-import ast
-
-import json
-
-
 from typing import Dict, Any, List
 from .base_agent import BaseAgent
 from db.database import JobDatabase
@@ -39,7 +31,7 @@ class MatcherAgent(BaseAgent):
             print(f"Error parsing analysis results: {e}")
             return {
                 "matched_jobs": [],
-                "match_timestamp": "2024-03-14",
+                "match_timestamp": datetime.datetime.now().isoformat(),
                 "number_of_matches": 0,
             }
 

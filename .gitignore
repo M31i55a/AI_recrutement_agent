@@ -1,0 +1,18 @@
+# Python bytecode (covers all __pycache__ folders automatically)
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment & Virtual Repo
+.venv/
+.env
+
+# Directories you requested to ignore
+logs/
+results/
+uploads/
+utils/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
