@@ -1,5 +1,6 @@
 from typing import Dict, Any
 from .base_agent import BaseAgent
+import datetime
 
 
 class RecommenderAgent(BaseAgent):
@@ -23,6 +24,6 @@ class RecommenderAgent(BaseAgent):
 
         return {
             "final_recommendation": recommendation,
-            "recommendation_timestamp": "2025-03-14",
+            "recommendation_timestamp": datetime.datetime.now().isoformat(),
             "confidence_level": "high",
         }

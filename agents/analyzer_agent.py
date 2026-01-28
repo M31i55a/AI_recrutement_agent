@@ -1,5 +1,6 @@
 from typing import Dict, Any
 from .base_agent import BaseAgent
+import datetime
 
 
 class AnalyzerAgent(BaseAgent):
@@ -60,7 +61,7 @@ class AnalyzerAgent(BaseAgent):
 
         return {
             "skills_analysis": parsed_results,
-            "analysis_timestamp": "2024-03-14",
+            "analysis_timestamp": datetime.datetime.now().isoformat(),
             "confidence_score": 0.85 if "error" not in parsed_results else 0.5,
         }
 

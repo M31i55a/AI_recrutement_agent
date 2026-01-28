@@ -1,5 +1,6 @@
 from typing import Dict, Any
 from .base_agent import BaseAgent
+import datetime
 
 
 class ScreenerAgent(BaseAgent):
@@ -24,6 +25,6 @@ class ScreenerAgent(BaseAgent):
 
         return {
             "screening_report": screening_results,
-            "screening_timestamp": "2024-03-14",
+            "screening_timestamp": datetime.datetime.now().isoformat(),
             "screening_score": 85,
         }

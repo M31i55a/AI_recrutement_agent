@@ -13,6 +13,7 @@ import json
 import ast
 import re
 import sqlite3
+import datetime
 
 
 class MatcherAgent(BaseAgent):
@@ -98,7 +99,7 @@ class MatcherAgent(BaseAgent):
 
         return {
             "matched_jobs": scored_jobs[:3],  # Top 3 matches
-            "match_timestamp": "2024-03-14",
+            "match_timestamp": datetime.datetime.now().isoformat(),
             "number_of_matches": len(scored_jobs),
         }
 
