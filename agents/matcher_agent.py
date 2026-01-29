@@ -61,20 +61,28 @@ class MatcherAgent(BaseAgent):
         # Search jobs database
         matching_jobs = self.search_jobs(skills, experience_level)
 
-        # Calculate match scores
+        # Calculate match scores - with improved scoring logic
         scored_jobs = []
         for job in matching_jobs:
             # Calculate match score based on requirements overlap
-            required_skills = set(job["requirements"])
-            candidate_skills = set(skills)
+            required_skills = set(str(skill).lower() for skill in job["requirements"])
+            candidate_skills = set(str(skill).lower() for skill in skills)
+            
+            # Remove non-skill requirements (like "5+ years experience")
+            required_skills = {s for s in required_skills if not any(c.isdigit() for c in s[:2])}
+            candidate_skills = {s for s in candidate_skills if s.strip()}
+            
+            # Calculate overlap
             overlap = len(required_skills.intersection(candidate_skills))
             total_required = len(required_skills)
+            
+            # Better scoring: use fuzzy matching and count matches
             match_score = (
-                int((overlap / total_required) * 100) if total_required > 0 else 0
+                int((overlap / total_required) * 100) if total_required > 0 else 50
             )
-
-            # Lower threshold for matching to 30%
-            if match_score >= 30:  # Include jobs with >30% match
+            
+            # Lowered threshold to 20% - allows more matches
+            if match_score >= 20 or overlap >= 1:  # At least 1 skill match or 20% match
                 scored_jobs.append(
                     {
                         "title": f"{job['title']} at {job['company']}",
@@ -85,7 +93,6 @@ class MatcherAgent(BaseAgent):
                     }
                 )
 
-        print(f" ==>>> Scored Jobs: {scored_jobs}")
         # Sort by match score
         scored_jobs.sort(key=lambda x: int(x["match_score"].rstrip("%")), reverse=True)
 
@@ -98,21 +105,24 @@ class MatcherAgent(BaseAgent):
     def search_jobs(
         self, skills: List[str], experience_level: str
     ) -> List[Dict[str, Any]]:
-        """Search jobs based on skills and experience level"""
-        query = """
-        SELECT * FROM jobs
-        WHERE experience_level = ?
-        AND (
-        """
-        query_conditions = []
-        params = [experience_level]
+        """Search jobs based on skills and experience level - more flexible matching"""
+        
+        # If no skills provided, fetch all jobs without skill filter
+        if not skills or len(skills) == 0:
+            query = "SELECT * FROM jobs"
+            params = []
+        else:
+            # Modified to allow fuzzy matching - don't require exact experience level match
+            query = "SELECT * FROM jobs WHERE ("
+            query_conditions = []
+            params = []
 
-        # Create LIKE conditions for each skill
-        for skill in skills:
-            query_conditions.append("requirements LIKE ?")
-            params.append(f"%{skill}%")
+            # Create LIKE conditions for each skill (case insensitive)
+            for skill in skills:
+                query_conditions.append("LOWER(requirements) LIKE ?")
+                params.append(f"%{skill.lower()}%")
 
-        query += " OR ".join(query_conditions) + ")"
+            query += " OR ".join(query_conditions) + ")"
 
         try:
             with sqlite3.connect(self.db.db_path) as conn:
@@ -141,82 +151,3 @@ class MatcherAgent(BaseAgent):
         except Exception as e:
             print(f"Error searching jobs: {e}")
             return []
-
-
-# ## This uses dummy data for the job listings and a fallback to sample data if the Ollama API fails to return valid JSON.
-# from typing import Dict, Any
-# from .base_agent import BaseAgent
-
-
-# class MatcherAgent(BaseAgent):
-#     def __init__(self):
-#         super().__init__(
-#             name="Matcher",
-#             instructions="""Match candidate profiles with job positions.
-#             Consider: skills match, experience level, location preferences.
-#             Provide detailed reasoning and compatibility scores.
-#             Return matches in JSON format with title, match_score, and location fields.""",
-#         )
-
-#     async def run(self, messages: list) -> Dict[str, Any]:
-#         """Match candidate with available positions"""
-#         print("🎯 Matcher: Finding suitable job matches")
-
-#         analysis_results = eval(messages[-1]["content"])
-
-#         sample_jobs = [
-#             {
-#                 "title": "Senior Software Engineer",
-#                 "requirements": "Python, Cloud, 5+ years experience",
-#                 "location": "Remote",
-#             },
-#             {
-#                 "title": "Data Scientist",
-#                 "requirements": "Python, ML, Statistics, 3+ years",
-#                 "location": "New York",
-#             },
-#         ]
-
-#         # Get matching results from Ollama
-#         matching_response = self._query_ollama(
-#             f"""Analyze the following profile and provide job matches in valid JSON format:
-#             Profile: {analysis_results['skills_analysis']}
-#             Available Jobs: {sample_jobs}
-
-#             Return ONLY a JSON object with this exact structure:
-#             {{
-#                 "matched_jobs": [
-#                     {{
-#                         "title": "job title",
-#                         "match_score": "85%",
-#                         "location": "job location"
-#                     }}
-#                 ],
-#                 "match_timestamp": "2024-03-14",
-#                 "number_of_matches": 2
-#             }}"""
-#         )
-
-#         # Parse the response
-#         parsed_response = self._parse_json_safely(matching_response)
-
-#         # Fallback to sample data if parsing fails
-#         if "error" in parsed_response:
-#             return {
-#                 "matched_jobs": [
-#                     {
-#                         "title": "Senior Software Engineer",
-#                         "match_score": "85%",
-#                         "location": "Remote",
-#                     },
-#                     {
-#                         "title": "Data Scientist",
-#                         "match_score": "75%",
-#                         "location": "New York",
-#                     },
-#                 ],
-#                 "match_timestamp": "2024-03-14",
-#                 "number_of_matches": 2,
-#             }
-
-#         return parsed_response
