@@ -82,7 +82,7 @@ class MatcherAgent(BaseAgent):
             )
             
             # Lowered threshold to 20% - allows more matches
-            if match_score >= 20 or overlap >= 1:  # At least 1 skill match or 20% match
+            if match_score >= 50 or overlap >= 1:  # At least 1 skill match or 20% match
                 scored_jobs.append(
                     {
                         "title": f"{job['title']} at {job['company']}",
@@ -97,7 +97,7 @@ class MatcherAgent(BaseAgent):
         scored_jobs.sort(key=lambda x: int(x["match_score"].rstrip("%")), reverse=True)
 
         return {
-            "matched_jobs": scored_jobs[:3],  # Top 3 matches
+            "matched_jobs": scored_jobs,
             "match_timestamp": datetime.datetime.now().isoformat(),
             "number_of_matches": len(scored_jobs),
         }
