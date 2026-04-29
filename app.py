@@ -20,29 +20,10 @@ st.set_page_config(
 # Initialize logger
 logger = setup_logger()
 
-# Custom CSS
+# Custom CSS — loaded from styles/main.css
+_css_path = Path(__file__).parent / "styles" / "main.css"
 st.markdown(
-    """
-    <style>
-        .stProgress .st-bo {
-            background-color: #00a0dc;
-        }
-        .success-text {
-            color: #00c853;
-        }
-        .warning-text {
-            color: #ffd700;
-        }
-        .error-text {
-            color: #ff5252;
-        }
-        .st-emotion-cache-1v0mbdj.e115fcil1 {
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            padding: 20px;
-        }
-    </style>
-""",
+    f"<style>{_css_path.read_text(encoding='utf-8')}</style>",
     unsafe_allow_html=True,
 )
 
@@ -85,11 +66,21 @@ def save_uploaded_file(uploaded_file) -> str:
 def main():
     # Sidebar navigation
     with st.sidebar:
-        st.image(
-            "https://img.icons8.com/resume",
-            width=50,
+        st.markdown(
+            """
+            <div style="text-align:center; padding: 1.2rem 0 0.5rem 0;">
+                <div style="font-size:2.8rem;">🤖</div>
+                <div style="font-size:1.25rem; font-weight:700;
+                     background:linear-gradient(90deg,#a78bfa,#60a5fa);
+                     -webkit-background-clip:text; -webkit-text-fill-color:transparent;">
+                    AI Recruiter
+                </div>
+                <div style="font-size:0.75rem; color:#64748b; letter-spacing:0.15em; text-transform:uppercase; margin-top:2px;">Agency</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
         )
-        st.title("AI Recruiter Agency")
+        st.divider()
         selected = option_menu(
             menu_title="Navigation",
             options=["Upload Resume", "About"],
@@ -99,8 +90,15 @@ def main():
         )
 
     if selected == "Upload Resume":
-        st.header("📄 Resume Analysis")
-        st.write("Upload a resume to get AI-powered insights and job matches.")
+        st.markdown(
+            """
+            <div style="margin-bottom:1.5rem;">
+                <h1 style="margin-bottom:0.25rem;">📄 Resume Analysis</h1>
+                <p style="color:#94a3b8; font-size:1rem; margin:0;">Upload a resume to get AI-powered insights and job matches.</p>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
 
         uploaded_file = st.file_uploader(
             "Choose a PDF resume file",
@@ -171,15 +169,18 @@ def main():
                                 for job in result["job_matches"]["matched_jobs"]:
                                     if job["title"] not in seen_titles:
                                         seen_titles.add(job["title"])
-                                        with st.container():
-                                            col1, col2, col3 = st.columns([2, 1, 1])
-                                            with col1:
-                                                st.write(f"**{job['title']}**")
-                                            with col2:
-                                                st.write(f"Match: {job.get('match_score', 'N/A')}")
-                                            with col3:
-                                                st.write(f"📍 {job.get('location', 'N/A')}")
-                                        st.divider()
+                                        st.markdown(
+                                            f"""
+                                            <div class="job-card">
+                                                <div class="job-title">{job['title']}</div>
+                                                <div class="job-meta">📍 {job.get('location', 'N/A')}</div>
+                                                <div style="margin-top:0.6rem;">
+                                                    <span class="match-badge">⚡ Match: {job.get('match_score', 'N/A')}</span>
+                                                </div>
+                                            </div>
+                                            """,
+                                            unsafe_allow_html=True,
+                                        )
                         with tab3:
                             st.subheader("Screening Results")
                             st.metric(
@@ -230,25 +231,51 @@ def main():
                 logger.error(f"Upload error: {str(e)}", exc_info=True)
 
     elif selected == "About":
-        st.header("About AI Recruiter Agency")
-        st.write(
+        st.markdown(
             """
-        Welcome to AI Recruiter Agency, a cutting-edge recruitment analysis system powered by:
-        
-        - **Ollama (llama3.2)**: Advanced language model for natural language processing
-        - **Swarm Framework**: Coordinated AI agents for specialized tasks
-        - **Streamlit**: Modern web interface for easy interaction
-        
-        Our system uses specialized AI agents to:
-        1. 📄 Extract information from resumes
-        2. 🔍 Analyze candidate profiles
-        3. 🎯 Match with suitable positions
-        4. 👥 Screen candidates
-        5. 💡 Provide detailed recommendations
-        
-        Upload a resume to experience AI-powered recruitment analysis!
-        """
+            <div style="margin-bottom:1.5rem;">
+                <h1 style="margin-bottom:0.25rem;">About AI Recruiter Agency</h1>
+                <p style="color:#94a3b8; font-size:1rem; margin:0;">Cutting-edge recruitment analysis powered by AI agents.</p>
+            </div>
+            """,
+            unsafe_allow_html=True,
         )
+
+        col_a, col_b = st.columns(2)
+        with col_a:
+            st.markdown(
+                """
+                <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);
+                            border-radius:16px;padding:1.4rem 1.6rem;height:100%;">
+                    <div style="font-size:1.1rem;font-weight:600;color:#e2e8f0;margin-bottom:0.8rem;">⚙️ Powered By</div>
+                    <ul style="color:#cbd5e1;line-height:2;list-style:none;padding:0;margin:0;">
+                        <li>🦙 <strong style="color:#a78bfa">Ollama (llama3.2)</strong> — Local LLM inference</li>
+                        <li>🐝 <strong style="color:#60a5fa">Swarm Framework</strong> — Multi-agent orchestration</li>
+                        <li>⚡ <strong style="color:#34d399">Streamlit</strong> — Interactive web interface</li>
+                    </ul>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+        with col_b:
+            st.markdown(
+                """
+                <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);
+                            border-radius:16px;padding:1.4rem 1.6rem;height:100%;">
+                    <div style="font-size:1.1rem;font-weight:600;color:#e2e8f0;margin-bottom:0.8rem;">🤖 Agent Pipeline</div>
+                    <ol style="color:#cbd5e1;line-height:2;padding-left:1.2rem;margin:0;">
+                        <li>📄 Extract information from resumes</li>
+                        <li>🔍 Analyse candidate profiles</li>
+                        <li>🎯 Match with suitable positions</li>
+                        <li>👥 Screen candidates</li>
+                        <li>💡 Provide detailed recommendations</li>
+                    </ol>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+        st.markdown("<br>", unsafe_allow_html=True)
+        st.info("Upload a resume on the **Upload Resume** page to experience AI-powered recruitment analysis!", icon="🚀")
 
 
 if __name__ == "__main__":

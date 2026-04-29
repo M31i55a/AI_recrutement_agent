@@ -1,0 +1,243 @@
+/* ── Google Font ── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+html, body, [class*="css"] {
+    font-family: 'Inter', sans-serif;
+}
+
+/* ── App background ── */
+.stApp {
+    background: #000000;
+    min-height: 100vh;
+}
+
+/* ── Sidebar ── */
+[data-testid="stSidebar"] {
+    background: rgba(255,255,255,0.04) !important;
+    backdrop-filter: blur(20px);
+    border-right: 1px solid rgba(255,255,255,0.08);
+}
+[data-testid="stSidebar"] * {
+    color: #e2e8f0 !important;
+}
+[data-testid="stSidebar"] .stTitle,
+[data-testid="stSidebar"] h1 {
+    font-size: 1.3rem !important;
+    font-weight: 700 !important;
+    background: linear-gradient(90deg, #a78bfa, #60a5fa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* ── Main content area ── */
+.main .block-container {
+    padding: 2rem 3rem;
+    max-width: 1200px;
+}
+
+/* ── Page headings ── */
+h1, h2, h3 {
+    color: #f1f5f9 !important;
+}
+h1 { font-weight: 700 !important; }
+
+/* ── Section header accent ── */
+.stApp h1::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #a78bfa, #60a5fa);
+    border-radius: 2px;
+    margin-top: 6px;
+}
+
+/* ── Regular text ── */
+p, label, .stMarkdown, [data-testid="stText"] {
+    color: #cbd5e1 !important;
+}
+
+/* ── Metric cards ── */
+[data-testid="stMetric"] {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 1.2rem 1.5rem;
+    backdrop-filter: blur(10px);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+[data-testid="stMetric"]:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(167,139,250,0.25);
+}
+[data-testid="stMetricLabel"] { color: #94a3b8 !important; font-size: 0.82rem !important; font-weight: 500 !important; text-transform: uppercase; letter-spacing: 0.05em; }
+[data-testid="stMetricValue"] { color: #a78bfa !important; font-size: 2rem !important; font-weight: 700 !important; }
+
+/* ── Tabs ── */
+.stTabs [data-baseweb="tab-list"] {
+    background: rgba(255,255,255,0.04);
+    border-radius: 12px;
+    padding: 4px;
+    gap: 4px;
+    border: 1px solid rgba(255,255,255,0.08);
+}
+.stTabs [data-baseweb="tab"] {
+    border-radius: 9px;
+    color: #94a3b8 !important;
+    font-weight: 500;
+    padding: 0.55rem 1.2rem;
+    transition: all 0.2s ease;
+}
+.stTabs [aria-selected="true"] {
+    background: linear-gradient(135deg, #7c3aed, #2563eb) !important;
+    color: #fff !important;
+    box-shadow: 0 4px 15px rgba(124,58,237,0.4);
+}
+.stTabs [data-baseweb="tab-panel"] {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 0 12px 12px 12px;
+    padding: 1.5rem;
+    margin-top: -4px;
+}
+
+/* ── Progress bar ── */
+.stProgress > div > div > div {
+    background: linear-gradient(90deg, #7c3aed, #2563eb, #06b6d4) !important;
+    border-radius: 99px;
+}
+.stProgress > div > div {
+    background: rgba(255,255,255,0.08) !important;
+    border-radius: 99px;
+}
+
+/* ── File uploader ── */
+[data-testid="stFileUploader"] {
+    background: rgba(255,255,255,0.04);
+    border: 2px dashed rgba(167,139,250,0.4);
+    border-radius: 16px;
+    padding: 1rem;
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+[data-testid="stFileUploader"]:hover {
+    border-color: #a78bfa;
+    background: rgba(167,139,250,0.06);
+}
+
+/* ── Buttons ── */
+.stButton > button {
+    background: linear-gradient(135deg, #7c3aed, #2563eb) !important;
+    color: #fff !important;
+    border: none !important;
+    border-radius: 10px !important;
+    padding: 0.55rem 1.6rem !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.02em !important;
+    box-shadow: 0 4px 15px rgba(124,58,237,0.35) !important;
+    transition: transform 0.15s ease, box-shadow 0.15s ease !important;
+}
+.stButton > button:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 25px rgba(124,58,237,0.5) !important;
+}
+
+/* ── Alert boxes ── */
+[data-testid="stAlert"] {
+    border-radius: 12px !important;
+    border: none !important;
+    backdrop-filter: blur(10px);
+}
+/* info */
+[data-testid="stAlert"][data-baseweb="notification"] div[class*="Info"] {
+    background: rgba(96,165,250,0.12) !important;
+    border-left: 4px solid #60a5fa !important;
+}
+/* success */
+.element-container div.stAlert.st-ae {
+    background: rgba(52,211,153,0.1) !important;
+    border-left: 4px solid #34d399 !important;
+}
+/* warning */
+div[data-testid="stAlert"].st-warning {
+    background: rgba(251,191,36,0.1) !important;
+    border-left: 4px solid #fbbf24 !important;
+}
+
+/* ── Spinner ── */
+.stSpinner > div {
+    border-top-color: #a78bfa !important;
+}
+
+/* ── Expander ── */
+.streamlit-expanderHeader {
+    background: rgba(255,255,255,0.05) !important;
+    border-radius: 10px !important;
+    color: #e2e8f0 !important;
+    font-weight: 600 !important;
+}
+.streamlit-expanderContent {
+    background: rgba(255,255,255,0.03) !important;
+    border: 1px solid rgba(255,255,255,0.06) !important;
+    border-top: none !important;
+    border-radius: 0 0 10px 10px !important;
+}
+
+/* ── Divider ── */
+hr {
+    border-color: rgba(255,255,255,0.08) !important;
+}
+
+/* ── Job card container ── */
+.job-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 14px;
+    padding: 1rem 1.4rem;
+    margin-bottom: 0.75rem;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+.job-card:hover {
+    transform: translateX(4px);
+    border-color: rgba(167,139,250,0.45);
+}
+.job-title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #e2e8f0;
+}
+.job-meta {
+    font-size: 0.85rem;
+    color: #94a3b8;
+    margin-top: 0.2rem;
+}
+.match-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #7c3aed55, #2563eb55);
+    border: 1px solid rgba(167,139,250,0.4);
+    color: #c4b5fd;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.2rem 0.75rem;
+    border-radius: 99px;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(167,139,250,0.4); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: #a78bfa; }
+
+/* ── Input / select boxes ── */
+.stTextInput input, .stSelectbox select, .stTextArea textarea {
+    background: rgba(255,255,255,0.06) !important;
+    border: 1px solid rgba(255,255,255,0.1) !important;
+    color: #e2e8f0 !important;
+    border-radius: 10px !important;
+}
+
+/* ── Option-menu overrides ── */
+.nav-link { border-radius: 10px !important; }
+.nav-link.active {
+    background: linear-gradient(135deg, #7c3aed, #2563eb) !important;
+    box-shadow: 0 4px 15px rgba(124,58,237,0.4) !important;
+}

@@ -9,7 +9,7 @@ class BaseAgent:
         self.instructions = instructions
         self.ollama_client = OpenAI(
             base_url="http://localhost:11434/v1",
-            api_key="ollama",  # required but unused
+            api_key="ollama",
         )
 
     async def run(self, messages: list) -> Dict[str, Any]:
