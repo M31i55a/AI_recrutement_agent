@@ -12,7 +12,7 @@ from utils.exceptions import ResumeProcessingError
 # Configure Streamlit page
 st.set_page_config(
     page_title="AI Recruiter Agency",
-    page_icon="🤖",
+    page_icon="💼",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -69,7 +69,7 @@ def main():
         st.markdown(
             """
             <div style="text-align:center; padding: 1.2rem 0 0.5rem 0;">
-                <div style="font-size:2.8rem;">🤖</div>
+                <div style="font-size:2.8rem; letter-spacing:-1px; font-weight:800; background:linear-gradient(90deg,#a78bfa,#60a5fa); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">AI</div>
                 <div style="font-size:1.25rem; font-weight:700;
                      background:linear-gradient(90deg,#a78bfa,#60a5fa);
                      -webkit-background-clip:text; -webkit-text-fill-color:transparent;">
@@ -93,7 +93,7 @@ def main():
         st.markdown(
             """
             <div style="margin-bottom:1.5rem;">
-                <h1 style="margin-bottom:0.25rem;">📄 Resume Analysis</h1>
+                <h1 style="margin-bottom:0.25rem;">Resume Analysis</h1>
                 <p style="color:#94a3b8; font-size:1rem; margin:0;">Upload a resume to get AI-powered insights and job matches.</p>
             </div>
             """,
@@ -132,10 +132,10 @@ def main():
                         # Display results in tabs
                         tab1, tab2, tab3, tab4 = st.tabs(
                             [
-                                "📊 Analysis",
-                                "💼 Job Matches",
-                                "🎯 Screening",
-                                "💡 Recommendation",
+                                "Analysis",
+                                "Job Matches",
+                                "Screening",
+                                "Recommendation",
                             ]
                         )
 
@@ -151,13 +151,13 @@ def main():
                             st.subheader("Matched Positions")
                             
                             # DEBUG INFO - Remove later
-                            with st.expander("🔍 Debug Info"):
+                            with st.expander("Debug Info"):
                                 st.write(f"**Skills Extracted:** {result['analysis_results'].get('skills_analysis', {}).get('technical_skills', [])}")
                                 st.write(f"**Experience Level:** {result['analysis_results'].get('skills_analysis', {}).get('experience_level', 'N/A')}")
                                 st.write(f"**Total Matches Found:** {result['job_matches'].get('number_of_matches', 0)}")
                             
                             if not result["job_matches"]["matched_jobs"]:
-                                st.warning("⚠️ No suitable positions found. This could mean:")
+                                st.warning("No suitable positions found. This could mean:")
                                 st.info("""
                                 1. **Skills not extracted properly** - Check the CV parsing
                                 2. **Limited job database** - Ensure jobs are seeded in the database
@@ -173,9 +173,9 @@ def main():
                                             f"""
                                             <div class="job-card">
                                                 <div class="job-title">{job['title']}</div>
-                                                <div class="job-meta">📍 {job.get('location', 'N/A')}</div>
+                                                <div class="job-meta">{job.get('location', 'N/A')}</div>
                                                 <div style="margin-top:0.6rem;">
-                                                    <span class="match-badge">⚡ Match: {job.get('match_score', 'N/A')}</span>
+                                                    <span class="match-badge">Match: {job.get('match_score', 'N/A')}</span>
                                                 </div>
                                             </div>
                                             """,
@@ -193,7 +193,6 @@ def main():
                             st.subheader("Final Recommendation")
                             st.info(
                                 result["final_recommendation"]["final_recommendation"],
-                                icon="💡",
                             )
 
                         # Save results
@@ -234,7 +233,7 @@ def main():
         st.markdown(
             """
             <div style="margin-bottom:1.5rem;">
-                <h1 style="margin-bottom:0.25rem;">About AI Recruiter Agency</h1>
+                <h1 style="margin-bottom:0.25rem;">About</h1>
                 <p style="color:#94a3b8; font-size:1rem; margin:0;">Cutting-edge recruitment analysis powered by AI agents.</p>
             </div>
             """,
@@ -247,11 +246,11 @@ def main():
                 """
                 <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);
                             border-radius:16px;padding:1.4rem 1.6rem;height:100%;">
-                    <div style="font-size:1.1rem;font-weight:600;color:#e2e8f0;margin-bottom:0.8rem;">⚙️ Powered By</div>
+                    <div style="font-size:1.1rem;font-weight:600;color:#e2e8f0;margin-bottom:0.8rem;">Powered By</div>
                     <ul style="color:#cbd5e1;line-height:2;list-style:none;padding:0;margin:0;">
-                        <li>🦙 <strong style="color:#a78bfa">Ollama (llama3.2)</strong> — Local LLM inference</li>
-                        <li>🐝 <strong style="color:#60a5fa">Swarm Framework</strong> — Multi-agent orchestration</li>
-                        <li>⚡ <strong style="color:#34d399">Streamlit</strong> — Interactive web interface</li>
+                        <li><strong style="color:#a78bfa">Ollama (llama3.2)</strong> — Local LLM inference</li>
+                        <li><strong style="color:#60a5fa">Swarm Framework</strong> — Multi-agent orchestration</li>
+                        <li><strong style="color:#34d399">Streamlit</strong> — Interactive web interface</li>
                     </ul>
                 </div>
                 """,
@@ -262,20 +261,20 @@ def main():
                 """
                 <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);
                             border-radius:16px;padding:1.4rem 1.6rem;height:100%;">
-                    <div style="font-size:1.1rem;font-weight:600;color:#e2e8f0;margin-bottom:0.8rem;">🤖 Agent Pipeline</div>
+                    <div style="font-size:1.1rem;font-weight:600;color:#e2e8f0;margin-bottom:0.8rem;">Agent Pipeline</div>
                     <ol style="color:#cbd5e1;line-height:2;padding-left:1.2rem;margin:0;">
-                        <li>📄 Extract information from resumes</li>
-                        <li>🔍 Analyse candidate profiles</li>
-                        <li>🎯 Match with suitable positions</li>
-                        <li>👥 Screen candidates</li>
-                        <li>💡 Provide detailed recommendations</li>
+                        <li>Extract information from resumes</li>
+                        <li>Analyse candidate profiles</li>
+                        <li>Match with suitable positions</li>
+                        <li>Screen candidates</li>
+                        <li>Provide detailed recommendations</li>
                     </ol>
                 </div>
                 """,
                 unsafe_allow_html=True,
             )
         st.markdown("<br>", unsafe_allow_html=True)
-        st.info("Upload a resume on the **Upload Resume** page to experience AI-powered recruitment analysis!", icon="🚀")
+        st.info("Upload a resume on the **Upload Resume** page to experience AI-powered recruitment analysis!")
 
 
 if __name__ == "__main__":
